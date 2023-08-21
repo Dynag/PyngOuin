@@ -9,6 +9,7 @@ import fichier.param_gene as param_gene
 import fichier.Thread_aj_ip as Thread_aj_ip
 import fichier.param_db_quit as dbQuit
 import os
+import psutil
 import fichier.fct_suivi as fct_suivi
 import fichier.fct_graph as fct_graph
 import threading
@@ -106,6 +107,8 @@ def Intercepte():
     try:
         val = design.question_box("Attention", "Etes vous sur de vouloir quitter ?")
         if val == True:
+            for process in (process for process in psutil.process_iter() if process.name() == "OpenHardwareMonitor.exe"):
+                process.kill()
             os._exit(0)
 
 
