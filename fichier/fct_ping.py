@@ -102,8 +102,8 @@ def test_ping(ip):
                 message = message + "HS || 200"
 
                 try:
-                    var.q.put(lambda: var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir))
-                    var.q.put(lambda: var.tab_ip.set(ip, column="Latence", value=""))
+                    var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir)
+                    var.q.put(lambda: var.tab_ip.set(ip, column="Latence", value="HS"))
                 except TclError as inst:
                     design.logs("ping-" + str(inst))
                     pass

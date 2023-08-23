@@ -34,7 +34,8 @@ def queu():
                 if f is None:
                     break
             except Exception as inst:
-                design.logs("ping-" + str(inst))
+                #design.logs("ping-" + str(inst))
+                pass
         except TclError as inst:
             design.logs("ping-" + str(inst))
 
