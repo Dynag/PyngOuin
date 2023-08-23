@@ -1,8 +1,7 @@
 # PyngOuin
 
 
-
-Installateur exe => https://prog.dynag.co/PyngOuin/PyngOuin%20setup.exe
+Installateur exe => https://prog.dynag.co/PyngOuin/PyngOuin%20Setup.exe
 
 # Plugin
 ## Temp
