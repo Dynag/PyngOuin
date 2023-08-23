@@ -5,6 +5,7 @@ from tkinter import *
 import fichier.var as var
 import time
 import threading
+import plugin.Snyf.main as main1
 import plugin.Snyf.send as send
 import fichier.design as design
 
@@ -104,7 +105,7 @@ def snyf():
         ###################################################################################################################
         # Créer une nouvelle fenêtre
 
-        fenetre1.title("Snyf")
+        fenetre1.title("Snyf - version "+main1.version)
         fenetre1.geometry("400x400")
         fenetre1.overrideredirect(1)
 
@@ -124,6 +125,7 @@ def snyf():
         ########################################
         ## Titre
         Label(master=frame_haut, text="Snyf, récupération automatique des éléments", bg="#FFFFFF").pack(fill=X)
+        Label(master=frame_haut, text="version "+main1.version, bg="#FFFFFF").pack(fill=X)
         ####################################################################################################################
         # Caméras
         nomCam = Label(master=frameCam, text="Caméras", bg="#FFFFFF", width=20)
@@ -160,6 +162,8 @@ def snyf():
 
         Button(frame_bot, text='Annuler', padx=10, command=stop).pack(side=LEFT, padx=5, pady=5)
         Button(frame_bot, text='Valider', padx=10, command=snyfScan).pack(side=LEFT, padx=5, pady=5)
+
+
         # ______________________________________________________________
         # Créer un menu
         # ______________________________________________________________

@@ -3,7 +3,6 @@ import threading
 from tkinter import *
 from tkinter.messagebox import *
 from tkinter import messagebox
-import fichier.Snyf.fen as snyfFen
 import fichier.param_mail as param_mail
 import fichier.param_db_quit as db_quit
 import fichier.param_gene as param_gene
@@ -55,7 +54,7 @@ def rac_o(ev=None):
 
 def rac_f(ev=None):
     try:
-        snyf()
+        pluginSnyf()
     except Exception as e:
         logs("design - " + str(e))
 
@@ -91,11 +90,7 @@ def xlsExport():
 
 # except Exception as e:
 #	logs("design - " + str(e))
-def snyf():
-    try:
-        snyfFen.snyf()
-    except Exception as e:
-        logs("design - " + str(e))
+
 
 
 def test():
@@ -167,6 +162,21 @@ def paramMailRecap():
 def quit_db():
     db_quit.save_param_db()
 
+def pluginGest():
+    try:
+        import os
+        import subprocess
+        path = os.path.abspath(os.getcwd())+"\\plugin"
+        FILEBROWSER_PATH = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
+        path = os.path.normpath(path)
+        if os.path.isdir(path):
+            subprocess.run([FILEBROWSER_PATH, path])
+        elif os.path.isfile(path):
+            subprocess.run([FILEBROWSER_PATH, '/select,', os.path.normpath(path)])
+    except Exception as e:
+        print(e)
+        logs("design - " + str(e))
+
 def pluginTemp():
     try:
         import plugin.Temp.main as apropos
@@ -193,7 +203,6 @@ def create_menu(fenetre, frame_haut):
     menu1.add_command(label="Charger", command=load_csv)
     menu1.add_command(label="Tout effacer", command=tab_erase)
     menu1.add_separator()
-    # menu1.add_command(label="Quitter ctrl+q", command=fenetre.quit)
     menu1.add_command(label="Test", command=test)
     menu1.add_command(label="Sauvegarder les réglages", command=quit_db)
     menubar.add_cascade(label="Fichier", menu=menu1)
@@ -209,7 +218,6 @@ def create_menu(fenetre, frame_haut):
     menu4.add_command(label="Export xls ctrl+x", command=xlsExport)
     menu4.add_command(label="Import xls ctrl+o", command=xlsImport)
     menu4.add_separator()
-    menu4.add_command(label="Snyf ctrl + f", command=snyf)
     menubar.add_cascade(label="Fonctions", menu=menu4)
 
     menu3 = Menu(menubar, tearoff=0)
@@ -218,6 +226,8 @@ def create_menu(fenetre, frame_haut):
     menu3.add_separator()
 
     menu5 = Menu(menubar, tearoff=0)
+    menu5.add_command(label="Gestion", command=pluginGest)
+    menu5.add_separator()
     if var.plugTemp == 1:
         menu5.add_command(label="Temp", command=pluginTemp)
     if var.plugSnyf == 1:

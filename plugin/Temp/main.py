@@ -41,7 +41,7 @@ def temp(mail, popup, telegram):
         print(tGpu)
         print(tempMaxCpu)
         #if tCpu > int(tempMaxCpu) or tGpu > int(tempMaxCpu):
-        if tGpu > int(tempMaxCpu):
+        if tCpu > int(tempMaxCpu):
             print("Alert")
             if mail == '1':
                 if param.mail_envoi == 0:

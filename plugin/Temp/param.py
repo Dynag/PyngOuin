@@ -4,6 +4,7 @@ import fichier.design as design
 import plugin.Temp.main as a
 import plugin.Temp.param as param
 
+
 popup_envoi = 0
 mail_envoi = 0
 telegram_envoi = 0
@@ -32,21 +33,29 @@ def main():
 	frame_haut = Frame(master=fenetre1, height=50, bg=var.bg_frame_mid, padx=5, pady=5)
 	frame_haut.pack(fill=X)
 
-	Label(master=frame_haut, text="Envoie mail", bg=var.bg_frame_mid).grid(row=0, column=0, padx=5, pady=5, sticky = 'w')
+	Label(master=frame_haut, text="Version "+a.version, bg=var.bg_frame_mid).grid(row=0, columnspan=2, padx=5, pady=5, sticky='w')
+
+
+	Label(master=frame_haut, text="Envoie mail", bg=var.bg_frame_mid).grid(row=1, column=0, padx=5, pady=5, sticky = 'w')
 	ent0 = Entry(frame_haut, text="")
-	ent0.grid(row=0, column=1, padx=5, pady=5, sticky = 'w')
+	ent0.insert(0, '0')
+	ent0.grid(row=1, column=2, padx=5, pady=5, sticky = 'w')
 
-	Label(master=frame_haut, text="Popup", bg=var.bg_frame_mid).grid(row=1, column=0, padx=5, pady=5, sticky = 'w')
+	Label(master=frame_haut, text="Popup", bg=var.bg_frame_mid).grid(row=2, column=0, padx=5, pady=5, sticky = 'w')
 	ent1 = Entry(frame_haut, text="")
-	ent1.grid(row=1, column=1, padx=5, pady=5, sticky = 'w')
+	ent1.insert(0, '0')
+	ent1.grid(row=2, column=2, padx=5, pady=5, sticky = 'w')
 
-	Label(master=frame_haut, text="Telegram", bg=var.bg_frame_mid).grid(row=2, column=0, padx=5, pady=5, sticky = 'w')
+	Label(master=frame_haut, text="Telegram", bg=var.bg_frame_mid).grid(row=3, column=0, padx=5, pady=5, sticky = 'w')
 	ent3 = Entry(frame_haut, text="")
-	ent3.grid(row=2, column=1, padx=5, pady=5, sticky = 'w')
+	ent3.insert(0, '0')
+	ent3.grid(row=3, column=2, padx=5, pady=5, sticky = 'w')
 
-	Label(master=frame_haut, text="Température", bg=var.bg_frame_mid).grid(row=3, column=0, padx=5, pady=5, sticky='w')
+	Label(master=frame_haut, text="Température", bg=var.bg_frame_mid).grid(row=4, column=0, padx=5, pady=5, sticky='w')
 	ent4 = Entry(frame_haut, text="")
-	ent4.grid(row=3, column=1, padx=5, pady=5, sticky='w')
+	ent4.insert(0, '60')
+	ent4.grid(row=4, column=2, padx=5, pady=5, sticky='w')
+
 
 
 
