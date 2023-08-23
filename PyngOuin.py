@@ -54,6 +54,8 @@ def plugin(name):
 def plug():
     if plugin("Temp") == True:
         var.plugTemp = 1
+    if plugin("Snyf") == True:
+        var.plugSnyf = 1
 def maj():
     import fichier.thread_maj as maj1
     threading.Thread(target=maj1.main(), args=()).start()
@@ -407,9 +409,7 @@ if __name__ == "__main__":
     Button(frameIp, text='Valider', width=15, padx=10, command=aj_ip, bg=var.bg_but).grid(row=10, columnspan=2,
                                                                                           pady=5)
 
-    Button(frameAutre, text='SnyfCam', width=15, padx=10, command=design.snyf, bg=var.bg_but).grid(row=0,
-                                                                                                   padx=12,
-                                                                                                   pady=5)
+    #Button(frameAutre, text='SnyfCam', width=15, padx=10, command=design.snyf, bg=var.bg_but).grid(row=0, padx=12, pady=5)
 
     #############################################
     ##### Frame centrale

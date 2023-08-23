@@ -174,6 +174,14 @@ def pluginTemp():
     except Exception as e:
         print(e)
         logs("design - " + str(e))
+
+def pluginSnyf():
+    try:
+        import plugin.Snyf.main as apropos
+        apropos.main()
+    except Exception as e:
+        print(e)
+        logs("design - " + str(e))
 #  Menu
 def create_menu(fenetre, frame_haut):
     menubar = Menu(fenetre)
@@ -212,6 +220,8 @@ def create_menu(fenetre, frame_haut):
     menu5 = Menu(menubar, tearoff=0)
     if var.plugTemp == 1:
         menu5.add_command(label="Temp", command=pluginTemp)
+    if var.plugSnyf == 1:
+        menu5.add_command(label="Snyf", command=pluginSnyf)
     menubar.add_cascade(label="Plugins", menu=menu5)
 
     menubar.add_cascade(label="?", menu=menu3)

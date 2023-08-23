@@ -5,7 +5,7 @@ from tkinter import *
 import fichier.var as var
 import time
 import threading
-import fichier.Snyf.send as send
+import plugin.Snyf.send as send
 import fichier.design as design
 
 

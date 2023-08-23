@@ -2,7 +2,7 @@ import socket
 from xml.dom import minidom
 import threading
 import fichier.var as var
-import fichier.Snyf.fct as snyf_fct
+import plugin.Snyf.fct as snyf_fct
 import re
 
 

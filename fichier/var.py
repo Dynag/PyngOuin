@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from queue import Queue
 
-version = "1.4.6"
+version = "1.4.7"
 site = 'http://prog.dynag.co'
 ###########   Couleurs ##########
 bg_frame_haut = "#81BEF7"
@@ -71,4 +71,5 @@ upnp = 0
 
 timeTest = 3
 plugTemp = 0
+plugSnyf = 0
 plugTempVal = 50
