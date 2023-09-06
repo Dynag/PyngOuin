@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import wmi
+from PIL import ImageTk
+
 import fichier.design as design
 import fichier.var as var
 import fichier.fct_ip as fct_ip
@@ -20,7 +22,6 @@ import webbrowser
 from tkinter.messagebox import *
 #from PIL import ImageTk, Image
 import time
-
 
 
 
@@ -52,10 +53,12 @@ def plugin(name):
     return result
 
 def plug():
-    if plugin("Temp") == True:
-        var.plugTemp = 1
-    if plugin("Snyf") == True:
-        var.plugSnyf = 1
+    for filename in os.listdir("plugin"):
+        full_filename = os.path.join("plugin", filename)
+        if os.path.isdir(full_filename):
+            print(filename)
+            var.plugIn.append(filename)
+
 def maj():
     import fichier.thread_maj as maj1
     threading.Thread(target=maj1.main(), args=()).start()
@@ -63,7 +66,6 @@ def maj():
 def lireParam():
     try:
         variable = dbQuit.lire_param_db()
-        print(variable)
         var.delais = int(variable[0])
         var.envoie_alert = int(variable[1])
         var.popup = variable[2]
@@ -160,7 +162,8 @@ def item_selected(event):
         ent_nom.delete(0, END)
         ent_nom.insert(0, nom)
     except Exception as e:
-        design.logs("exit - " + str(e))
+        print(e)
+        #design.logs("exit - " + str(e))
 
 
 def open_nav(ip):

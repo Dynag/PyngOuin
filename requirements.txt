@@ -1,0 +1,8 @@
+openpyxl~=3.1.1
+setuptools~=65.5.1
+pip~=22.3.1
+Pillow~=10.0.0
+WMI~=1.5.1
+numpy~=1.25.2
+pywin32~=306
+psutil~=5.9.5

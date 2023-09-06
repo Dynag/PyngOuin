@@ -177,10 +177,23 @@ def pluginGest():
         print(e)
         logs("design - " + str(e))
 
-def pluginTemp():
+def plugIn(x1):
     try:
-        import plugin.Temp.main as apropos
-        apropos.main()
+        import os
+        import sys
+        import importlib
+
+        module = None
+        full_path_to_module = 'plugin/'+x1+'/main.py'
+        try:
+            module_dir, module_file = os.path.split(full_path_to_module)
+            module_name, module_ext = os.path.splitext(module_file)
+            spec = importlib.util.spec_from_file_location(module_name, full_path_to_module)
+            module = spec.loader.load_module()
+        except Exception as e:
+            logs("design - " + str(e))
+        module.main()
+
     except Exception as e:
         print(e)
         logs("design - " + str(e))
@@ -228,10 +241,10 @@ def create_menu(fenetre, frame_haut):
     menu5 = Menu(menubar, tearoff=0)
     menu5.add_command(label="Gestion", command=pluginGest)
     menu5.add_separator()
-    if var.plugTemp == 1:
-        menu5.add_command(label="Temp", command=pluginTemp)
-    if var.plugSnyf == 1:
-        menu5.add_command(label="Snyf", command=pluginSnyf)
+    i = 0
+    for plug in var.plugIn:
+        menu5.add_command(label=plug, command=lambda plug1=plug: plugIn(plug1))
+
     menubar.add_cascade(label="Plugins", menu=menu5)
 
     menubar.add_cascade(label="?", menu=menu3)

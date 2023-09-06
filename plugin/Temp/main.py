@@ -6,7 +6,7 @@ import threading
 import fichier.var as var
 import plugin.Temp.param as param
 
-version = "0.0.2"
+version = "0.0.3"
 
 
 def alert(message):
@@ -46,21 +46,19 @@ def temp(mail, popup, telegram):
             if mail == '1':
                 if param.mail_envoi == 0:
                     param.mail_envoi = 1
-            else:
-                param.mail_envoi = 0
+
             if param.popup == '1':
                 if param.popup_envoi == 0:
                     var.q.put(lambda: threading.Thread(target=alert, args=("La temperature est de " + str(tempCpu),)).start())
                     param.popup_envoi = 1
-            else:
-                param.popup_envoi = 0
+
             if telegram == '1':
+                print("tel")
                 if param.telegram_envoi == 0:
-                    var.q.put(
-                        lambda: threading.Thread(target=tel.main, args=("La temperature est de " + str(tempCpu),)).start())
+                    print("tel1")
+                    var.q.put(lambda: threading.Thread(target=tel.main, args=("Site de "+str(var.nom_site)+" - La temperature est de " + str(tempCpu),)).start())
                     param.telegram_envoi = 1
-            else:
-                param.telegram_envoi = 0
+
         else:
             param.popup_envoi = 0
             param.telegram_envoi = 0
