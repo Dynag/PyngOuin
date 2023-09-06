@@ -13,6 +13,8 @@ Il permet de retrouver les hôtes actifs et de les suivre. Une alerte est envoy�
 ### Temp
 Suivi de la température du processeur, envoie d'une alerte si elle dépasse un certain seuil.
 
+0.0.3
+
 [Temp.zip](https://prog.dynag.co/PyngOuin/plugin/Temp.zip)
 ### Snyf
 Snyf est un plugin permettant de trouver des hôtes via Broadcast. Il est avant tout destiné aux caméras de vidéosurveillance.
@@ -20,5 +22,7 @@ Snyf est un plugin permettant de trouver des hôtes via Broadcast. Il est avant 
 * Onvif
 * HikVision
 * Samsung
+
+0.0.2
 
 [Snyf.zip](https://prog.dynag.co/PyngOuin/plugin/Snyf.zip)
