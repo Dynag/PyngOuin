@@ -32,7 +32,7 @@ def worker(q, thread_no):
 
 
 def threadIp(ip, tout, i, hote, port):
-    var.q.put(lambda: var.progress.grid(row=0, column=2, padx=5, pady=5))
+    var.progress.grid(row=0, column=2, padx=5, pady=5)
     var.threadouvert = int(var.threadouvert) + 1
     ipexist = False
     for parent in var.tab_ip.get_children():
@@ -70,8 +70,7 @@ def threadIp(ip, tout, i, hote, port):
                 port = ""
                 mac = ""
             try:
-                var.q.put(
-                    lambda: var.tab_ip.insert(parent='', index=i, iid=ip, tag=ip, values=(ip, nom[0], mac, port, "")))
+                var.tab_ip.insert(parent='', index=i, iid=ip, tag=ip, values=(ip, nom[0], mac, port, ""))
             except:
                 pass
         else:
@@ -86,15 +85,15 @@ def threadIp(ip, tout, i, hote, port):
                     pass
                 port = fct_ip.check_port(ip, port)
                 try:
-                    var.q.put(lambda: var.tab_ip.insert(parent='', index=i, tag=ip, iid=ip,
-                                                        values=(ip, nom[0], mac, port, "")))
+                   var.tab_ip.insert(parent='', index=i, tag=ip, iid=ip,
+                                                        values=(ip, nom[0], mac, port, ""))
                 except:
                     pass
         if result == "OK":
 
-            var.q.put(lambda: var.tab_ip.tag_configure(tagname=ip, background=var.couleur_vert))
+           lambda: var.tab_ip.tag_configure(tagname=ip, background=var.couleur_vert)
         else:
-            var.q.put(lambda: var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir))
+            lambda: var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir)
     var.threadferme = int(var.threadferme) + 1
     thread = var.threadouvert - var.threadferme
     var.q.put(lambda: var.lab_thread.config(text=str(thread) + " /  " + str(hote)))

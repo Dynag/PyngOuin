@@ -36,7 +36,7 @@ def list_increment(liste, ip):
                 liste[ip] += 1
             else:
                 liste[ip] = liste[ip]
-            print(str(ip)+" - "+str(liste[ip]))
+            #print(str(ip)+" - "+str(liste[ip]))
         else:
 
             liste[ip] = 1
@@ -102,7 +102,7 @@ def test_ping(ip):
                 message = message + "HS || 200"
 
                 try:
-                    var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir)
+                    var.q.put(lambda:var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir))
                     var.q.put(lambda: var.tab_ip.set(ip, column="Latence", value="HS"))
                 except TclError as inst:
                     design.logs("ping-" + str(inst))
