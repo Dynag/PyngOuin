@@ -19,11 +19,11 @@ def temp(mail, popup, telegram):
         tempGpu = fct.getTtemp("GPU Core")
         tempCpu = fct.getTtemp("CPU Package")
         tempMaxCpu = param.tempMaxCpu
-        try:
-            var.q.put(lambda: var.lab_tempCpu.config(text=str("CPU= " + str(tempCpu) + " / GPU= " + str(tempGpu))))
+        """try:
+            #var.q.put(lambda: var.lab_tempCpu.config(text=str("CPU= " + str(tempCpu) + " / GPU= " + str(tempGpu))))
         except Exception as e:
             print(e)
-
+        """
         tCpu = 0
         tGpu = 0
         try:

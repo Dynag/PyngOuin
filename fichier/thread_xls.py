@@ -28,15 +28,21 @@ def saveExcel():
     sheet["C1"] = "Mac"
     sheet["D1"] = "Port"
     sheet["E1"] = "Latence"
+    sheet["F1"] = "Comm"
     x = 2
     for parent in var.tab_ip.get_children():
         result = var.tab_ip.item(parent)["values"]
-        print("A" + str(x))
+        print(result)
+        try:
+            resultComm = result[6]
+        except:
+            resultComm = ""
         sheet["A" + str(x)] = str(result[0])
         sheet["b" + str(x)] = str(result[1])
         sheet["C" + str(x)] = str(result[2])
         sheet["D" + str(x)] = str(result[3])
         sheet["E" + str(x)] = str(result[4])
+        sheet["F" + str(x)] = str(resultComm)
         print(str(result[0]))
         x = x + 1
     workbook.save(filename=name + ".xlsx")
@@ -68,6 +74,7 @@ def openExcel():
             if ipexist == False:
                 mac = ""
                 port = ""
+                comm = ''
                 if value[1] != None:
                     nom = value[1]
                 else:
@@ -76,6 +83,8 @@ def openExcel():
                     mac = value[2]
                 if value[3] != None:
                     port = value[3]
+                if value[5] != None:
+                    comm = value[5]
                 var.tab_ip.insert(parent='', index=x, tag=value[0], iid=value[0],
-                                                values=(value[0], nom, mac, port, ""))
+                                                values=(value[0], nom, mac, port, "", "", comm))
         x += 1

@@ -27,7 +27,7 @@ import time
 def queu():
     while True:
         time.sleep(0.025)
-        num_threads = threading.activeCount()
+        num_threads = threading.active_count()
         print(num_threads)
         try:
             try:
@@ -162,6 +162,12 @@ def item_selected(event):
         nom = result[1]
         ent_nom.delete(0, END)
         ent_nom.insert(0, nom)
+        try:
+            comm = result[6]
+        except:
+            comm = ""
+        ent_comm.delete(0, END)
+        ent_comm.insert(0, comm)
     except Exception as e:
         print(e)
         #design.logs("exit - " + str(e))
@@ -212,6 +218,7 @@ def delete_item():
 def nom_modif():
     selected_item = var.tab_ip.selection()
     var.tab_ip.set(selected_item, column="Nom", value=ent_nom.get())
+    var.tab_ip.set(selected_item, column="Comm", value=ent_comm.get())
     pass
 
 
@@ -343,8 +350,7 @@ lab_version = Label(master=frame_bas, bg=var.bg_frame_haut, text="PyngOuin versi
 lab_version.grid(row=0, column=1, padx=5, pady=5)
 lab_touvert = Label(master=frame_bas, bg=var.bg_frame_haut, text="")
 lab_touvert.grid(row=0, column=2, padx=5, pady=5)
-var.lab_tempCpu = Label(master=frame_bas, bg=var.bg_frame_haut, text="")
-var.lab_tempCpu.grid(row=0, column=4, padx=5, pady=5)
+
 
 
 ###################################################################################################################
@@ -413,13 +419,14 @@ ent_port.grid(row=6, column=0, padx=5, pady=5)
 Button(frameIp, text='Valider', width=15, padx=10, command=aj_ip, bg=var.bg_but).grid(row=10, columnspan=2,
                                                                                       pady=5)
 
-#Button(frameAutre, text='SnyfCam', width=15, padx=10, command=design.snyf, bg=var.bg_but).grid(row=0, padx=12, pady=5)
 
 #############################################
 ##### Frame centrale
+#############################################
+
 tab_ip_scroll = Scrollbar(frame2)
 tab_ip_scroll.pack(side=RIGHT, fill=Y)
-columns = ('IP', 'Nom', 'mac', 'port', 'Latence', 'Suivi')
+columns = ('IP', 'Nom', 'mac', 'port', 'Latence', 'Suivi', 'Comm')
 var.tab_ip = ttk.Treeview(frame2, yscrollcommand=tab_ip_scroll.set, selectmode="extended", columns=columns,
                           show='headings')
 for col in columns:
@@ -431,6 +438,7 @@ var.tab_ip.column("mac", anchor=CENTER, stretch=TRUE, width=80)
 var.tab_ip.column("port", anchor=CENTER, stretch=TRUE, width=80)
 var.tab_ip.column("Latence", anchor=CENTER, width=50, stretch=TRUE)
 var.tab_ip.column("Suivi", anchor=CENTER, width=30, stretch=FALSE)
+var.tab_ip.column("Comm", anchor=CENTER, stretch=TRUE, width=80)
 var.tab_ip.bind('<ButtonRelease-1>', item_selected)
 var.tab_ip.bind('<3>', right_clic)
 var.tab_ip.pack(expand=YES, fill=BOTH)
@@ -447,7 +455,13 @@ ent_nom.grid(row=0, column=0, padx=5, pady=5)
 
 ent_nom.insert(0, "")
 
-Button(frameNom, text='Modifier', padx=10, command=nom_modif, width=10, bg=var.bg_but).grid(row=1, pady=5)
+ent_comm= Entry(frameNom, text="")
+ent_comm.grid_propagate(0)
+ent_comm.grid(row=1, column=0, padx=5, pady=5)
+
+ent_comm.insert(0, "")
+
+Button(frameNom, text='Modifier', padx=10, command=nom_modif, width=10, bg=var.bg_but).grid(row=2, pady=5)
 
 frametab2 = Frame(master=frame3, bg=var.bg_frame_droit, padx=5, pady=5, width=180, height=20, relief=SUNKEN)
 frametab2.pack_propagate(0)
@@ -509,8 +523,6 @@ fenetre.config(menu=menubar)
 fenetre.protocol("WM_DELETE_WINDOW", Intercepte)
 
 
-try:
-    while 1:
-        fenetre.mainloop()
-except Exception as e:
-    design.logs("Impossible d'ouvrir la fenetre principale - " + e)
+
+fenetre.mainloop()
+
