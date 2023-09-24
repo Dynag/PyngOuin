@@ -4,7 +4,7 @@ import time
 import platform
 import os, sys
 import fichier.design as design
-import fichier.lib.pythonping.ping as ping
+import pythonping
 import fichier.var as var
 
 #############################################################################################
@@ -58,7 +58,7 @@ def check_socket(host, port):
 #############################################################################################
 def ipPing(ip):
 	try:
-		result = ping.ping(ip, size=10, count=1)
+		result = pythonping.ping(ip, size=10, count=1)
 		if result.rtt_avg_ms == int(2000):
 			return "HS"
 		else:

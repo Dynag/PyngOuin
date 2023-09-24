@@ -1,4 +1,4 @@
-import fichier.lib.requests as requests
+import requests
 import json
 import fichier.param_mail as param_mail
 import fichier.design as design

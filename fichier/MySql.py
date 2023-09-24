@@ -1,4 +1,5 @@
-import fichier.lib.connector as connector
+from mysql import connector
+
 import fichier.design as design
 import fichier.param_db as param_db
 import fichier.var as var

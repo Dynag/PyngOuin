@@ -14,29 +14,14 @@ from queue import Queue
 *********************************************************************************************
 """
 
-q = Queue()
-
-
-def Queue():
-    while True:
-        try:
-            if var.ipPing == 1:
-                f = q.get()
-                f()
-            else:
-                print("stop")
-                break
-        except Exception as inst:
-            design.logs("ping-" + str(inst))
 
 
 ############################################################################################
 #####	Lancement des différentes alertes										       #####
 ############################################################################################
 def main():
-    threading.Thread(target=Queue, args=()).start()
     while True:
-        time.sleep(5)
+        time.sleep(10)
         try:
             if var.ipPing == 1:
                 if var.popup == 1:

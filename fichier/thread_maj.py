@@ -1,6 +1,9 @@
 import threading
 import traceback
-import fichier.lib.urllib3 as urllib3
+
+import psutil
+
+import urllib3 as urllib3
 import fichier.lib.xmltodict as xmltodict
 import fichier.var as var
 import fichier.design as design
@@ -46,7 +49,10 @@ def testVersion():
         print(val)
         if val == True:
             webbrowser.open(var.site + '/PyngOuin/PyngOuin%20Setup.exe')
-            os.exit(0)
+            for process in (process for process in psutil.process_iter() if
+                            process.name() == "OpenHardwareMonitor.exe"):
+                process.kill()
+            os._exit(0)
     else:
         pass
 

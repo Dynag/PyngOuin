@@ -325,204 +325,204 @@ try:
 except Exception as e:
     design.logs("MAJ - " + str(e))
     pass
+if __name__ == '__main__':
+    lireParam()
+    threading.Thread(target=queu, args=()).start()
+    # threading.Thread(target=threado, args=()).start()
+    ###################################################################################################################
+    ###### Définition des frames																				 ######
+    ###################################################################################################################
+    frame_haut = Frame(master=fenetre, height=50, bg=var.bg_frame_haut, padx=5, pady=5)
+    frame_haut.pack(fill=X)
 
-lireParam()
-threading.Thread(target=queu, args=()).start()
-# threading.Thread(target=threado, args=()).start()
-###################################################################################################################
-###### Définition des frames																				 ######
-###################################################################################################################
-frame_haut = Frame(master=fenetre, height=50, bg=var.bg_frame_haut, padx=5, pady=5)
-frame_haut.pack(fill=X)
+    frame_main = Frame(master=fenetre, bg=var.bg_frame_mid, padx=5, pady=5)
+    frame_main.pack(fill=BOTH, expand=True)
 
-frame_main = Frame(master=fenetre, bg=var.bg_frame_mid, padx=5, pady=5)
-frame_main.pack(fill=BOTH, expand=True)
+    frame_bas = Frame(master=fenetre, width=25, height=25, bg=var.bg_frame_haut, padx=5, pady=5)
+    frame_bas.pack(fill=X)
 
-frame_bas = Frame(master=fenetre, width=25, height=25, bg=var.bg_frame_haut, padx=5, pady=5)
-frame_bas.pack(fill=X)
-
-###################################################################################################################
-###### Frame bas																							 ######
-###################################################################################################################
-var.lab_thread = Label(master=frame_bas, bg=var.bg_frame_haut, text="")
-var.lab_thread.grid(row=0, column=0, padx=5, pady=5)
-lab_version = Label(master=frame_bas, bg=var.bg_frame_haut, text="PyngOuin version :" + var.version)
-lab_version.grid(row=0, column=1, padx=5, pady=5)
-lab_touvert = Label(master=frame_bas, bg=var.bg_frame_haut, text="")
-lab_touvert.grid(row=0, column=2, padx=5, pady=5)
-
-
-
-###################################################################################################################
-###### Frame haut 																							 ######
-###################################################################################################################
-#img = Image.open("fichier/logoP.png")
-#img = img.resize((65, 65), Image.LANCZOS)
-#img = ImageTk.PhotoImage(img)
-#panel = Label(frame_haut, image=img, height=65, width=65, bg=var.bg_frame_haut)
-#panel.grid(row=0, column=0, pady=5, padx=10)
-Button(frame_haut, text='Start', padx=15, bg=var.couleur_rouge,
-       command=lambda: fct_ping.lancerping(frame_haut), height=3).grid(row=0, column=1,
-                                                                       pady=5)
-var.progress = ttk.Progressbar(frame_haut, orient=HORIZONTAL,
-                               length=250, mode='determinate')
-var.progress.grid(row=0, column=2, padx=5, pady=5)
-var.progress.grid_forget()
-var.lab_pourcent = Label(master=frame_haut, text="", bg=var.bg_frame_haut)
-var.lab_pourcent.grid(row=0, column=3, padx=5, pady=5)
-var.lab_pourcent.grid_forget()
-lab_nom_site = Label(master=frame_haut, text="", bg=var.bg_frame_haut)
-lab_nom_site.grid(row=0, column=4, padx=5, pady=5)
-lab_nom_site.config(text=var.nom_site)
-
-###################################################################################################################
-###### Frame centrale 																						 ######
-###################################################################################################################
-frame1 = Frame(master=frame_main, bg=var.bg_frame_droit, padx=0, pady=0, width=200, relief=SUNKEN)
-frame1.pack(fill=BOTH, side=LEFT)
-frame2 = Frame(master=frame_main, bg=var.bg_frame_droit, padx=5, pady=5)
-frame2.pack(fill=BOTH, expand=True, side=LEFT)
-frame3 = Frame(master=frame_main, bg=var.bg_frame_droit, padx=0, pady=0, width=200, relief=SUNKEN)
-frame3.pack(fill=BOTH, side=LEFT)
-frame3.pack_propagate(False)
-#############################################
-##### Gauche
-frameIp = Frame(master=frame1, bg="#FFFFFF", padx=5, pady=0, width=150, height=200, relief=SUNKEN)
-frameIp.pack_propagate(0)
-frameIp.pack(side=TOP, padx=5, pady=5, fill=X)
-frameAutre = Frame(master=frame1, bg="#FFFFFF", padx=5, pady=10, width=150, height=200, relief=SUNKEN)
-frameAutre.pack_propagate(0)
-frameAutre.pack(side=TOP, padx=5, pady=5, fill=X)
-
-lab_ip = Label(master=frameIp, text="IP", bg="#FFFFFF")
-lab_ip.grid(row=0, column=0, padx=5, pady=5)
-ent_ip = Entry(frameIp, text=ip_pc)
-ent_ip.grid(row=1, column=0, padx=5, pady=5)
-ent_ip.insert(0, ip_pc)
-lab_hote = Label(master=frameIp, text="Nombre d'hotes", bg="#FFFFFF")
-lab_hote.grid(row=2, column=0, padx=5, pady=5)
-ent_hote = Entry(frameIp, text="255")
-ent_hote.grid(row=3, column=0, padx=5, pady=5)
-ent_hote.insert(0, "255")
-ent_tout = ttk.Combobox(master=frameIp, values=[
-    "Tout",
-    "Alive"], width=18)
-ent_tout.set("Tout")
-ent_tout.grid(row=4, column=0, padx=5, pady=5, columnspan=2)
-
-lab_port = Label(master=frameIp, text="Ports (xx,xx)", bg="#FFFFFF")
-lab_port.grid(row=5, column=0, padx=5, pady=5)
-ent_port = Entry(frameIp, text="80")
-ent_port.grid(row=6, column=0, padx=5, pady=5)
-
-
-Button(frameIp, text='Valider', width=15, padx=10, command=aj_ip, bg=var.bg_but).grid(row=10, columnspan=2,
-                                                                                      pady=5)
-
-
-#############################################
-##### Frame centrale
-#############################################
-
-tab_ip_scroll = Scrollbar(frame2)
-tab_ip_scroll.pack(side=RIGHT, fill=Y)
-columns = ('IP', 'Nom', 'mac', 'port', 'Latence', 'Suivi', 'Comm')
-var.tab_ip = ttk.Treeview(frame2, yscrollcommand=tab_ip_scroll.set, selectmode="extended", columns=columns,
-                          show='headings')
-for col in columns:
-    var.tab_ip.heading(col, text=col, command=lambda _col=col: treeview_sort_column(var.tab_ip, _col, False))
-var.tab_ip.column("#0", width=0, stretch=FALSE)
-var.tab_ip.column("IP", anchor=CENTER, stretch=TRUE, width=80)
-var.tab_ip.column("Nom", anchor=CENTER, stretch=TRUE, width=80)
-var.tab_ip.column("mac", anchor=CENTER, stretch=TRUE, width=80)
-var.tab_ip.column("port", anchor=CENTER, stretch=TRUE, width=80)
-var.tab_ip.column("Latence", anchor=CENTER, width=50, stretch=TRUE)
-var.tab_ip.column("Suivi", anchor=CENTER, width=30, stretch=FALSE)
-var.tab_ip.column("Comm", anchor=CENTER, stretch=TRUE, width=80)
-var.tab_ip.bind('<ButtonRelease-1>', item_selected)
-var.tab_ip.bind('<3>', right_clic)
-var.tab_ip.pack(expand=YES, fill=BOTH)
-
-### Frame Droit
-
-frameNom = Frame(master=frame3, bg="#FFFFFF", padx=5, pady=5, width=180, relief=SUNKEN)
-frameNom.pack_propagate(0)
-frameNom.pack(side=TOP, padx=5, pady=5, fill=X)
-
-ent_nom = Entry(frameNom, text="")
-ent_nom.grid_propagate(0)
-ent_nom.grid(row=0, column=0, padx=5, pady=5)
-
-ent_nom.insert(0, "")
-
-ent_comm= Entry(frameNom, text="")
-ent_comm.grid_propagate(0)
-ent_comm.grid(row=1, column=0, padx=5, pady=5)
-
-ent_comm.insert(0, "")
-
-Button(frameNom, text='Modifier', padx=10, command=nom_modif, width=10, bg=var.bg_but).grid(row=2, pady=5)
-
-frametab2 = Frame(master=frame3, bg=var.bg_frame_droit, padx=5, pady=5, width=180, height=20, relief=SUNKEN)
-frametab2.pack_propagate(0)
-frametab2.pack(side=TOP)
-frameDelais = Frame(master=frame3, bg="#FFFFFF", padx=5, pady=5, width=180, relief=SUNKEN)
-frameDelais.pack(side=TOP, padx=5, pady=5, fill=X)
-
-lab_delais = Label(master=frameDelais, text="Délais entre 2 pings", bg="#FFFFFF", width=20)
-lab_delais.grid(row=0, column=0, padx=5, pady=5, columnspan=3)
-delais = StringVar(value=var.delais )
-spin_delais = Spinbox(frameDelais, from_=5, to=100000000, width=5, textvariable=delais, command=spinDelais)
-spin_delais.grid(row=1, column=1, padx=0, pady=5)
-lab_delais1 = Label(master=frameDelais, text="5 s", bg="#FFFFFF")
-lab_delais1.grid(row=1, column=0, padx=0, pady=5)
-
-lab_test = Label(master=frameDelais, text="Nombre HS", bg="#FFFFFF")
-lab_test.grid(row=2, column=0, padx=0, pady=5)
-delais1 = StringVar(value=var.envoie_alert)
-spin_test = Spinbox(frameDelais, from_=1, to=10, width=5, textvariable=delais1, command=spinTest)
-spin_test.grid(row=2, column=1, padx=0, pady=5)
-check_popup1.set(var.popup)
-check_popup = Checkbutton(frameDelais, text='Popup', variable=check_popup1, onvalue=1, offvalue=0, bg="#FFFFFF",
-                          command=isCheckedpopup)
-check_popup.grid(row=3, columnspan=3, padx=0, pady=5, sticky='w')
-check_mail1.set(var.mail)
-check_mail = Checkbutton(frameDelais, text='Mail', variable=check_mail1, onvalue=1, offvalue=0, bg="#FFFFFF",
-                         command=isCheckedMail)
-check_mail.grid(row=4, columnspan=3, padx=0, pady=5, sticky='w')
-check_telegram1.set(var.telegram)
-check_telegram = Checkbutton(frameDelais, text='Telegram', variable=check_telegram1, onvalue=1, offvalue=0,
-                             bg="#FFFFFF",
-                             command=isCheckedTelegram)
-check_telegram.grid(row=5, columnspan=3, padx=0, pady=5, sticky='w')
-check_recap1.set(var.recap)
-check_recap = Checkbutton(frameDelais, text='Mail Recap', variable=check_recap1, onvalue=1, offvalue=0,
-                          bg="#FFFFFF",
-                          command=isCheckedRecap)
-check_recap.grid(row=6, columnspan=3, padx=0, pady=5, sticky='w')
-check_db1.set(var.db)
-check_db = Checkbutton(frameDelais, text='DB Externe', variable=check_db1, onvalue=1, offvalue=0,
-                       bg="#FFFFFF",
-                       command=isCheckedDb)
-check_db.grid(row=7, columnspan=3, padx=0, pady=5, sticky='w')
-
-########### Effacer #########################################
-frametab1 = Frame(master=frame3, bg=var.bg_frame_droit, padx=5, pady=5, width=180, height=20, relief=SUNKEN)
-frametab1.pack_propagate(0)
-frametab1.pack(side=TOP, expand=False)
-design.load_csv()
-# ______________________________________________________________
-# Créer un menu
-# ______________________________________________________________
-menubar = design.create_menu(fenetre, frame_haut)
-fenetre.config(menu=menubar)
-
-# ______________________________________________________________
-# Lancer la fenetre
-# ______________________________________________________________
-fenetre.protocol("WM_DELETE_WINDOW", Intercepte)
+    ###################################################################################################################
+    ###### Frame bas																							 ######
+    ###################################################################################################################
+    var.lab_thread = Label(master=frame_bas, bg=var.bg_frame_haut, text="")
+    var.lab_thread.grid(row=0, column=0, padx=5, pady=5)
+    lab_version = Label(master=frame_bas, bg=var.bg_frame_haut, text="PyngOuin version :" + var.version)
+    lab_version.grid(row=0, column=1, padx=5, pady=5)
+    lab_touvert = Label(master=frame_bas, bg=var.bg_frame_haut, text="")
+    lab_touvert.grid(row=0, column=2, padx=5, pady=5)
 
 
 
-fenetre.mainloop()
+    ###################################################################################################################
+    ###### Frame haut 																							 ######
+    ###################################################################################################################
+    #img = Image.open("fichier/logoP.png")
+    #img = img.resize((65, 65), Image.LANCZOS)
+    #img = ImageTk.PhotoImage(img)
+    #panel = Label(frame_haut, image=img, height=65, width=65, bg=var.bg_frame_haut)
+    #panel.grid(row=0, column=0, pady=5, padx=10)
+    Button(frame_haut, text='Start', padx=15, bg=var.couleur_rouge,
+           command=lambda: fct_ping.lancerping(frame_haut), height=3).grid(row=0, column=1,
+                                                                           pady=5)
+    var.progress = ttk.Progressbar(frame_haut, orient=HORIZONTAL,
+                                   length=250, mode='determinate')
+    var.progress.grid(row=0, column=2, padx=5, pady=5)
+    var.progress.grid_forget()
+    var.lab_pourcent = Label(master=frame_haut, text="", bg=var.bg_frame_haut)
+    var.lab_pourcent.grid(row=0, column=3, padx=5, pady=5)
+    var.lab_pourcent.grid_forget()
+    lab_nom_site = Label(master=frame_haut, text="", bg=var.bg_frame_haut)
+    lab_nom_site.grid(row=0, column=4, padx=5, pady=5)
+    lab_nom_site.config(text=var.nom_site)
+
+    ###################################################################################################################
+    ###### Frame centrale 																						 ######
+    ###################################################################################################################
+    frame1 = Frame(master=frame_main, bg=var.bg_frame_droit, padx=0, pady=0, width=200, relief=SUNKEN)
+    frame1.pack(fill=BOTH, side=LEFT)
+    frame2 = Frame(master=frame_main, bg=var.bg_frame_droit, padx=5, pady=5)
+    frame2.pack(fill=BOTH, expand=True, side=LEFT)
+    frame3 = Frame(master=frame_main, bg=var.bg_frame_droit, padx=0, pady=0, width=200, relief=SUNKEN)
+    frame3.pack(fill=BOTH, side=LEFT)
+    frame3.pack_propagate(False)
+    #############################################
+    ##### Gauche
+    frameIp = Frame(master=frame1, bg="#FFFFFF", padx=5, pady=0, width=150, height=200, relief=SUNKEN)
+    frameIp.pack_propagate(0)
+    frameIp.pack(side=TOP, padx=5, pady=5, fill=X)
+    frameAutre = Frame(master=frame1, bg="#FFFFFF", padx=5, pady=10, width=150, height=200, relief=SUNKEN)
+    frameAutre.pack_propagate(0)
+    frameAutre.pack(side=TOP, padx=5, pady=5, fill=X)
+
+    lab_ip = Label(master=frameIp, text="IP", bg="#FFFFFF")
+    lab_ip.grid(row=0, column=0, padx=5, pady=5)
+    ent_ip = Entry(frameIp, text=ip_pc)
+    ent_ip.grid(row=1, column=0, padx=5, pady=5)
+    ent_ip.insert(0, ip_pc)
+    lab_hote = Label(master=frameIp, text="Nombre d'hotes", bg="#FFFFFF")
+    lab_hote.grid(row=2, column=0, padx=5, pady=5)
+    ent_hote = Entry(frameIp, text="255")
+    ent_hote.grid(row=3, column=0, padx=5, pady=5)
+    ent_hote.insert(0, "255")
+    ent_tout = ttk.Combobox(master=frameIp, values=[
+        "Tout",
+        "Alive"], width=18)
+    ent_tout.set("Tout")
+    ent_tout.grid(row=4, column=0, padx=5, pady=5, columnspan=2)
+
+    lab_port = Label(master=frameIp, text="Ports (xx,xx)", bg="#FFFFFF")
+    lab_port.grid(row=5, column=0, padx=5, pady=5)
+    ent_port = Entry(frameIp, text="80")
+    ent_port.grid(row=6, column=0, padx=5, pady=5)
+
+
+    Button(frameIp, text='Valider', width=15, padx=10, command=aj_ip, bg=var.bg_but).grid(row=10, columnspan=2,
+                                                                                          pady=5)
+
+
+    #############################################
+    ##### Frame centrale
+    #############################################
+
+    tab_ip_scroll = Scrollbar(frame2)
+    tab_ip_scroll.pack(side=RIGHT, fill=Y)
+    columns = ('IP', 'Nom', 'mac', 'port', 'Latence', 'Suivi', 'Comm')
+    var.tab_ip = ttk.Treeview(frame2, yscrollcommand=tab_ip_scroll.set, selectmode="extended", columns=columns,
+                              show='headings')
+    for col in columns:
+        var.tab_ip.heading(col, text=col, command=lambda _col=col: treeview_sort_column(var.tab_ip, _col, False))
+    var.tab_ip.column("#0", width=0, stretch=FALSE)
+    var.tab_ip.column("IP", anchor=CENTER, stretch=TRUE, width=80)
+    var.tab_ip.column("Nom", anchor=CENTER, stretch=TRUE, width=80)
+    var.tab_ip.column("mac", anchor=CENTER, stretch=TRUE, width=80)
+    var.tab_ip.column("port", anchor=CENTER, stretch=TRUE, width=80)
+    var.tab_ip.column("Latence", anchor=CENTER, width=50, stretch=TRUE)
+    var.tab_ip.column("Suivi", anchor=CENTER, width=30, stretch=FALSE)
+    var.tab_ip.column("Comm", anchor=CENTER, stretch=TRUE, width=80)
+    var.tab_ip.bind('<ButtonRelease-1>', item_selected)
+    var.tab_ip.bind('<3>', right_clic)
+    var.tab_ip.pack(expand=YES, fill=BOTH)
+
+    ### Frame Droit
+
+    frameNom = Frame(master=frame3, bg="#FFFFFF", padx=5, pady=5, width=180, relief=SUNKEN)
+    frameNom.pack_propagate(0)
+    frameNom.pack(side=TOP, padx=5, pady=5, fill=X)
+
+    ent_nom = Entry(frameNom, text="")
+    ent_nom.grid_propagate(0)
+    ent_nom.grid(row=0, column=0, padx=5, pady=5)
+
+    ent_nom.insert(0, "")
+
+    ent_comm= Entry(frameNom, text="")
+    ent_comm.grid_propagate(0)
+    ent_comm.grid(row=1, column=0, padx=5, pady=5)
+
+    ent_comm.insert(0, "")
+
+    Button(frameNom, text='Modifier', padx=10, command=nom_modif, width=10, bg=var.bg_but).grid(row=2, pady=5)
+
+    frametab2 = Frame(master=frame3, bg=var.bg_frame_droit, padx=5, pady=5, width=180, height=20, relief=SUNKEN)
+    frametab2.pack_propagate(0)
+    frametab2.pack(side=TOP)
+    frameDelais = Frame(master=frame3, bg="#FFFFFF", padx=5, pady=5, width=180, relief=SUNKEN)
+    frameDelais.pack(side=TOP, padx=5, pady=5, fill=X)
+
+    lab_delais = Label(master=frameDelais, text="Délais entre 2 pings", bg="#FFFFFF", width=20)
+    lab_delais.grid(row=0, column=0, padx=5, pady=5, columnspan=3)
+    delais = StringVar(value=var.delais )
+    spin_delais = Spinbox(frameDelais, from_=5, to=100000000, width=5, textvariable=delais, command=spinDelais)
+    spin_delais.grid(row=1, column=1, padx=0, pady=5)
+    lab_delais1 = Label(master=frameDelais, text="5 s", bg="#FFFFFF")
+    lab_delais1.grid(row=1, column=0, padx=0, pady=5)
+
+    lab_test = Label(master=frameDelais, text="Nombre HS", bg="#FFFFFF")
+    lab_test.grid(row=2, column=0, padx=0, pady=5)
+    delais1 = StringVar(value=var.envoie_alert)
+    spin_test = Spinbox(frameDelais, from_=1, to=10, width=5, textvariable=delais1, command=spinTest)
+    spin_test.grid(row=2, column=1, padx=0, pady=5)
+    check_popup1.set(var.popup)
+    check_popup = Checkbutton(frameDelais, text='Popup', variable=check_popup1, onvalue=1, offvalue=0, bg="#FFFFFF",
+                              command=isCheckedpopup)
+    check_popup.grid(row=3, columnspan=3, padx=0, pady=5, sticky='w')
+    check_mail1.set(var.mail)
+    check_mail = Checkbutton(frameDelais, text='Mail', variable=check_mail1, onvalue=1, offvalue=0, bg="#FFFFFF",
+                             command=isCheckedMail)
+    check_mail.grid(row=4, columnspan=3, padx=0, pady=5, sticky='w')
+    check_telegram1.set(var.telegram)
+    check_telegram = Checkbutton(frameDelais, text='Telegram', variable=check_telegram1, onvalue=1, offvalue=0,
+                                 bg="#FFFFFF",
+                                 command=isCheckedTelegram)
+    check_telegram.grid(row=5, columnspan=3, padx=0, pady=5, sticky='w')
+    check_recap1.set(var.recap)
+    check_recap = Checkbutton(frameDelais, text='Mail Recap', variable=check_recap1, onvalue=1, offvalue=0,
+                              bg="#FFFFFF",
+                              command=isCheckedRecap)
+    check_recap.grid(row=6, columnspan=3, padx=0, pady=5, sticky='w')
+    check_db1.set(var.db)
+    check_db = Checkbutton(frameDelais, text='DB Externe', variable=check_db1, onvalue=1, offvalue=0,
+                           bg="#FFFFFF",
+                           command=isCheckedDb)
+    check_db.grid(row=7, columnspan=3, padx=0, pady=5, sticky='w')
+
+    ########### Effacer #########################################
+    frametab1 = Frame(master=frame3, bg=var.bg_frame_droit, padx=5, pady=5, width=180, height=20, relief=SUNKEN)
+    frametab1.pack_propagate(0)
+    frametab1.pack(side=TOP, expand=False)
+    design.load_csv()
+    # ______________________________________________________________
+    # Créer un menu
+    # ______________________________________________________________
+    menubar = design.create_menu(fenetre, frame_haut)
+    fenetre.config(menu=menubar)
+
+    # ______________________________________________________________
+    # Lancer la fenetre
+    # ______________________________________________________________
+    fenetre.protocol("WM_DELETE_WINDOW", Intercepte)
+
+
+
+    fenetre.mainloop()
 

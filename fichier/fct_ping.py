@@ -1,13 +1,14 @@
+import subprocess
 import time
 from tkinter import *
-from queue import Queue
 import datetime
 import os
 import queue
 import threading
+from multiprocessing import Pool
 import multiprocessing
 import fichier.fct_thread as fct_thread_popup
-import fichier.lib.pythonping.ping as ping
+import pythonping as ping
 import fichier.param_gene as param_gene
 import fichier.thread_recap_mail as thread_recap_mail
 import fichier.var as var
@@ -23,7 +24,7 @@ import fichier.design as design
 *********************************************************************************************
 *********************************************************************************************
 """
-q = Queue()
+q = queue.Queue()
 
 
 ###########################################################################################
@@ -74,114 +75,174 @@ def db_ext(ip, nom, etat, latence):
 ###########################################################################################
 def test_ping(ip):
     try:
+        result = ping.ping(ip, size=10, count=1)
+        etat = ""
+        latence = ""
+        nom = ""
+        suivi = ""
+        selected_item = ip
+        valeur = var.tab_ip.item(selected_item)["values"]
+
         try:
-            time.sleep(0.01)
-            result = ping.ping(ip, size=10, count=1)
-            etat = ""
-            latence = ""
-            nom = ""
-            suivi = ""
-            #print(result)
-            selected_item = ip
-            valeur = var.tab_ip.item(selected_item)["values"]
+            suivi = str(valeur[5])
+            nom = valeur[1]
+        except Exception as inst:
+            #design.logs("ping-" + str(inst))
+            pass
+        if suivi != "X":
+            if os.path.exists('suivi/' + ip + '.txt'):
+                var.q.put(fct_suivi.supprimer(ip))
+
+        date = str(datetime.datetime.now())
+        message = date + " || "
+
+        if var.ipPing == 0:
+            return
+#### Si HS
+        if result.rtt_avg_ms == int(2000):
+            message = message + "HS || 200"
+            color = var.couleur_noir
+            latenceAffi = "HS"
             try:
-                suivi = str(valeur[5])
-                nom = valeur[1]
+                list_increment(var.liste_hs, ip)
+                list_increment(var.liste_mail, ip)
+                list_increment(var.liste_telegram, ip)
             except Exception as inst:
-                #design.logs("ping-" + str(inst))
-                pass
-            if suivi != "X":
-                if os.path.exists('suivi/' + ip + '.txt'):
-                    var.q.put(fct_suivi.supprimer(ip))
-
-            date = str(datetime.datetime.now())
-            message = date + " || "
-            if var.ipPing == 0:
-                return
-            if result.rtt_avg_ms == int(2000):
-                message = message + "HS || 200"
-
-                try:
-                    var.q.put(lambda:var.tab_ip.tag_configure(tagname=ip, background=var.couleur_noir))
-                    var.q.put(lambda: var.tab_ip.set(ip, column="Latence", value="HS"))
-                except TclError as inst:
-                    design.logs("ping-" + str(inst))
-                    pass
-                try:
-                    var.q.put(list_increment(var.liste_hs, ip))
-                    var.q.put(list_increment(var.liste_mail, ip))
-                    var.q.put(list_increment(var.liste_telegram, ip))
-                except Exception as inst:
-                    design.logs("ping-" + str(inst))
-                etat = "HS"
-                latence = ""
-
+                design.logs("ping-" + str(inst))
+            etat = "HS"
+            latence = ""
+#### SI OK
+        else:
+            message = message + " OK || " + str(result.rtt_avg_ms) + " ms"
+            if result.rtt_avg_ms < 2:
+                color = var.couleur_vert
+            elif result.rtt_avg_ms < 10:
+                color = var.couleur_jaune
+            elif result.rtt_avg_ms < 50:
+                color = var.couleur_orange
             else:
-                message = message + " OK || " + str(result.rtt_avg_ms) + " ms"
-                if result.rtt_avg_ms < 2:
-                    color = var.couleur_vert
-                elif result.rtt_avg_ms < 10:
-                    color = var.couleur_jaune
-                elif result.rtt_avg_ms < 50:
-                    color = var.couleur_orange
-                else:
-                    color = var.couleur_rouge
+                color = var.couleur_rouge
+            if result.rtt_avg_ms < 1:
+                ttot = "<1 ms"
+            else:
+                ttot = str(result.rtt_avg_ms) + " ms"
+            etat = "OK"
+            latence = ttot
+            try:
+                list_ok(var.liste_hs, ip)
+                list_ok(var.liste_mail, ip)
+                list_ok(var.liste_telegram, ip)
+            except Exception as inst:
+                design.logs("ping-" + str(inst))
 
-                if result.rtt_avg_ms < 1:
-                    ttot = "<1 ms"
-                else:
-                    ttot = str(result.rtt_avg_ms) + " ms"
-                try:
-                    list_ok(var.liste_hs, ip)
-                except Exception as inst:
-                    design.logs("ping-" + str(inst))
-                try:
-                    list_ok(var.liste_mail, ip)
-                except Exception as inst:
-                    design.logs("ping-" + str(inst))
-                try:
-                    list_ok(var.liste_telegram, ip)
-                except Exception as inst:
-                    design.logs("ping-" + str(inst))
-                try:
-                    var.q.put(lambda: var.tab_ip.tag_configure(tagname=ip, background=color))
-                    var.q.put(lambda: var.tab_ip.set(ip, column="Latence", value=ttot))
-                except TclError as inst:
-                    design.logs("ping-" + str(inst))
-                    pass
-                etat = "OK"
-                latence = ttot
-            message = message + "\n"
-            if var.db == 1:
-                var.q.put(lambda: db_ext(ip, nom, etat, latence))
-            if suivi == "X":
-                var.q.put(lambda: fct_suivi.ecrire(ip, message))
-            return message
-        except Exception as e:
-            design.logs("fct_ping - " + str(e))
-    except TclError as inst:
-        design.logs("ping-" + str(inst))
+
+#####  Afficher sur la lise les valeurs + couleur
+        try:
+            var.q.put(lambda: var.tab_ip.tag_configure(tagname=ip, background=color))
+            var.q.put(lambda: var.tab_ip.set(ip, column="Latence", value=ttot))
+        except TclError as inst:
+            design.logs("ping-" + str(inst))
+
+
+        message = message + "\n"
+        print("fin test")
+        if var.db == 1:
+            var.q.put(lambda: db_ext(ip, nom, etat, latence))
+        if suivi == "X":
+            var.q.put(lambda: fct_suivi.ecrire(ip, message))
+        return message
+    except Exception as e:
+        design.logs("fct_ping - " + str(e))
+
 
 
 ###########################################################################################
 #####				Lancement des pings sur les workers                  			  #####
 ###########################################################################################
-def worker(q_attente, thread_no):
+def worker():
     try:
         while True:
-            item = q_attente.get()
+            item = q.get()
             if item is None:
                 break
-            test_ping(str(item))
-            q_attente.task_done()
+            subprocess.call(test_ping(str(item)), shell=True)
+            #test_ping(str(item))
+            q.task_done()
     except Exception as e:
         design.logs("fct_ping - " + str(e))
 
 
+def affi(ip):
+    print(ip)
+def workerPing(task):
+
+    print("Worker exécute la tâche :",task)
 ###########################################################################################
 #####				Création des workers et mise en liste des tâches     			  #####
 ###########################################################################################
+
+def testPing():
+    tasks = queue.Queue()
+    tasks.empty()
+    pool2 = Pool(processes=4)
+
+    for parent in var.tab_ip.get_children():
+        result = var.tab_ip.item(parent)["values"]
+        ip1 = result[0]
+        tasks.put(test_ping(str(ip1)))
+        # tasks.put(ip1)
+    pool2.apply_async(workerPing, tasks)
+
+    # Fermer la pool de workers
+    print("close")
+    pool2.close()
+    print("closeOK")
+    #pool2.join()
+    print("closeOK1")
+
+def test2():
+
+    for parent in var.tab_ip.get_children():
+        result = var.tab_ip.item(parent)["values"]
+        ip1 = result[0]
+        q.put(ip1)
+    cpus = 4  # Detect number of cores
+    print("Creating %d threads" % cpus)
+    for i in range(cpus):
+        t = threading.Thread(target=worker)
+        t.daemon = True
+        t.start()
+
+    q.join()
+
 def threadPing():
+    param_gene.nom_site()
+    if var.db == 1:
+        try:
+            mysql.create_table(var.nom_site)
+        except:
+            pass
+    while True:
+        try:
+            if var.ipPing == 1:
+               startfct = time.time() * 1000.0
+               test2()
+               stopfct = time.time() * 1000.0
+               tpsfct = (stopfct - startfct) / 1000
+               if tpsfct < int(var.delais):
+                   time.sleep(int(var.delais) - tpsfct)
+               else:
+                   pass
+            else:
+                print("STOP")
+                break
+        except Exception as e:
+            #design.logs("fct_ping - " + str(e))
+            #print(e)
+            pass
+
+
+def threadPing1():
     param_gene.nom_site()
     if var.db == 1:
         try:
@@ -196,14 +257,14 @@ def threadPing():
                 except:
                     pass
             startfct = time.time() * 1000.0
+
+            startfct = time.time() * 1000.0
             if var.ipPing == 1:
                 nbrworker = multiprocessing.cpu_count()
-                print (nbrworker)
-                if nbrworker > 4:
-                    nbrworker = 4
+                if nbrworker > 1:
+                    nbrworker = 1
 
                 num_worker_threads = nbrworker
-                print(num_worker_threads)
                 q = queue.Queue()
                 threads = []
                 for i in range(num_worker_threads):
@@ -222,10 +283,14 @@ def threadPing():
                     q.put(None)
                 for t in threads:
                     t.join()
+
                 stopfct = time.time() * 1000.0
                 tpsfct = (stopfct - startfct) / 1000
+
                 if tpsfct < int(var.delais):
                     time.sleep(int(var.delais) - tpsfct)
+                else:
+                    pass
             else:
                 print("STOP")
                 break
