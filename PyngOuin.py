@@ -298,34 +298,36 @@ def isCheckedDb():
 ###### Fenetre principale																					 ######
 ###################################################################################################################
 # Créer une nouvelle fenêtre
-fenetre = Tk()
 
-fenetre.title("PyngOuin")
-fenetre.geometry("910x600")
-fenetre.minsize(width=910, height=600)
-fenetre.iconbitmap('fichier/logoP.ico')
-
-ip_pc = fct_ip.recup_ip()
-### Gestion des Plugins
-plug()
-
-
-
-check_popup1 = IntVar()
-check_mail1 = IntVar()
-check_recap1 = IntVar()
-check_lat1 = IntVar()
-check_port1 = IntVar()
-check_telegram1 = IntVar()
-check_db1 = IntVar()
-
-var.nom_site = param_gene.nom_site()
-try:
-    maj()
-except Exception as e:
-    design.logs("MAJ - " + str(e))
-    pass
 if __name__ == '__main__':
+    fenetre = Tk()
+
+    fenetre.title("PyngOuin")
+    fenetre.geometry("910x600")
+    fenetre.minsize(width=910, height=600)
+    fenetre.iconbitmap('fichier/logoP.ico')
+
+    ip_pc = fct_ip.recup_ip()
+    ### Gestion des Plugins
+    plug()
+
+
+
+    check_popup1 = IntVar()
+    check_mail1 = IntVar()
+    check_recap1 = IntVar()
+    check_lat1 = IntVar()
+    check_port1 = IntVar()
+    check_telegram1 = IntVar()
+    check_db1 = IntVar()
+
+    var.nom_site = param_gene.nom_site()
+    try:
+        maj()
+    except Exception as e:
+        design.logs("MAJ - " + str(e))
+        pass
+
     lireParam()
     threading.Thread(target=queu, args=()).start()
     # threading.Thread(target=threado, args=()).start()

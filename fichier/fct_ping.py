@@ -151,6 +151,7 @@ def test_ping(ip):
         if suivi == "X":
             var.q.put(lambda: fct_suivi.ecrire(ip, message))
         return message
+        threading.current_thread().join()
     except Exception as e:
         design.logs("fct_ping - " + str(e))
 
@@ -168,6 +169,7 @@ def worker():
             subprocess.call(test_ping(str(item)), shell=True)
             #test_ping(str(item))
             q.task_done()
+
     except Exception as e:
         design.logs("fct_ping - " + str(e))
 
@@ -206,17 +208,22 @@ def test2():
         result = var.tab_ip.item(parent)["values"]
         ip1 = result[0]
         q.put(ip1)
+    """cpus = 4  # Detect number of cores
+    print("Creating %d threads" % cpus)
+    for i in range(cpus):
+        t = threading.Thread(target=worker)
+        t.daemon = True
+        t.start()"""
+    q.join()
+
+def threadPing():
+    param_gene.nom_site()
     cpus = 4  # Detect number of cores
     print("Creating %d threads" % cpus)
     for i in range(cpus):
         t = threading.Thread(target=worker)
         t.daemon = True
         t.start()
-
-    q.join()
-
-def threadPing():
-    param_gene.nom_site()
     if var.db == 1:
         try:
             mysql.create_table(var.nom_site)
