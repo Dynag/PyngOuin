@@ -178,11 +178,35 @@ def pluginGest():
         logs("design - " + str(e))
 
 def plugIn(x):
+    print(x)
     try:
         import os
         import sys
+        import importlib
+
+        module = None
+        full_path_to_module = 'plugin/'+x+'/main.py'
+        print(full_path_to_module)
+        try:
+            module_dir, module_file = os.path.split(full_path_to_module)
+            module_name, module_ext = os.path.splitext(module_file)
+            spec = importlib.util.spec_from_file_location(module_name, full_path_to_module)
+            module = spec.loader.load_module()
+        except Exception as e:
+            logs("design - " + str(e))
+            print(e)
+        module.main()
+
+    except Exception as e:
+        print(e)
+        logs("design - " + str(e))
+
+
+"""    try:
+        import os
+        import sys
         pyfilepath = 'plugin/'+x+'/main.py'
-        print(x)
+
 
         import importlib
 
@@ -193,14 +217,14 @@ def plugIn(x):
             module_name)  # name space of defined module (otherwise we would literally look for "module_name")
         print(module)
         module.main()
-        """
+
         p = 'plugin/'+x+'/main/main.py'
         module = __import__(p)
         module.main()
-        """
+
     except Exception as e:
         print(e)
-        logs("design - " + str(e))
+        logs("design - " + str(e))"""
 
 def pluginSnyf():
     try:
@@ -246,9 +270,9 @@ def create_menu(fenetre, frame_haut):
     menu5.add_command(label="Gestion", command=pluginGest)
     menu5.add_separator()
     for plug in var.plugIn:
-        print(plug)
-        p = plug
-        menu5.add_command(label=p, command=lambda: plugIn(p))
+        menu5.add_command(label=plug, command=lambda plug1=plug: plugIn(plug1))
+
+
     menubar.add_cascade(label="Plugins", menu=menu5)
 
     menubar.add_cascade(label="?", menu=menu3)

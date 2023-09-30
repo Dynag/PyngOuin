@@ -1,6 +1,6 @@
 from xml.dom import minidom
 import re
-import fichier.lib.urllib3 as urllib3
+import urllib3 as urllib3
 import fichier.lib.xmltodict as xmltodict
 
 

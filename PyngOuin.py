@@ -57,7 +57,6 @@ def plug():
     for filename in os.listdir("plugin"):
         full_filename = os.path.join("plugin", filename)
         if os.path.isdir(full_filename):
-            print(filename)
             var.plugIn.append(filename)
 
 def maj():
