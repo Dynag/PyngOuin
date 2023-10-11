@@ -22,6 +22,11 @@ from queue import Queue
 def main():
     while True:
         time.sleep(10)
+        if int(var.delais) < 10:
+            time.sleep(10)
+        else:
+            time.sleep(int(var.delais))
+
         try:
             if var.ipPing == 1:
                 if var.popup == 1:

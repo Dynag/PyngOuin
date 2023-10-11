@@ -10,6 +10,7 @@ import fichier.param_gene as param_gene
 import fichier.Thread_aj_ip as Thread_aj_ip
 import fichier.param_db_quit as dbQuit
 import os
+import urllib3
 import psutil
 import fichier.fct_suivi as fct_suivi
 import fichier.fct_graph as fct_graph
@@ -19,7 +20,7 @@ from tkinter import ttk
 import math
 import webbrowser
 from tkinter.messagebox import *
-#from PIL import ImageTk, Image
+from PIL import ImageTk, Image
 import time
 
 
@@ -357,11 +358,11 @@ if __name__ == '__main__':
     ###################################################################################################################
     ###### Frame haut 																							 ######
     ###################################################################################################################
-    #img = Image.open("fichier/logoP.png")
-    #img = img.resize((65, 65), Image.LANCZOS)
-    #img = ImageTk.PhotoImage(img)
-    #panel = Label(frame_haut, image=img, height=65, width=65, bg=var.bg_frame_haut)
-    #panel.grid(row=0, column=0, pady=5, padx=10)
+    img = Image.open("fichier/logoP.png")
+    img = img.resize((65, 65), Image.LANCZOS)
+    img = ImageTk.PhotoImage(img)
+    panel = Label(frame_haut, image=img, height=65, width=65, bg=var.bg_frame_haut)
+    panel.grid(row=0, column=0, pady=5, padx=10)
     Button(frame_haut, text='Start', padx=15, bg=var.couleur_rouge,
            command=lambda: fct_ping.lancerping(frame_haut), height=3).grid(row=0, column=1,
                                                                            pady=5)
