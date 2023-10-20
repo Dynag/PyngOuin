@@ -82,9 +82,11 @@ def test_ping(ip):
         suivi = ""
         selected_item = ip
         valeur = var.tab_ip.item(selected_item)["values"]
+        excl = ""
 
         try:
             suivi = str(valeur[5])
+            excl = str(valeur[7])
             nom = valeur[1]
         except Exception as inst:
             #design.logs("ping-" + str(inst))
@@ -103,12 +105,13 @@ def test_ping(ip):
             message = message + "HS || 200"
             color = var.couleur_noir
             latenceAffi = "HS"
-            try:
-                list_increment(var.liste_hs, ip)
-                list_increment(var.liste_mail, ip)
-                list_increment(var.liste_telegram, ip)
-            except Exception as inst:
-                design.logs("ping-" + str(inst))
+            if excl != "X":
+                try:
+                    list_increment(var.liste_hs, ip)
+                    list_increment(var.liste_mail, ip)
+                    list_increment(var.liste_telegram, ip)
+                except Exception as inst:
+                    design.logs("ping-" + str(inst))
             etat = "HS"
             latence = ""
 #### SI OK
@@ -128,12 +131,13 @@ def test_ping(ip):
                 ttot = str(result.rtt_avg_ms) + " ms"
             etat = "OK"
             latence = ttot
-            try:
-                list_ok(var.liste_hs, ip)
-                list_ok(var.liste_mail, ip)
-                list_ok(var.liste_telegram, ip)
-            except Exception as inst:
-                design.logs("ping-" + str(inst))
+            if excl != "X":
+                try:
+                    list_ok(var.liste_hs, ip)
+                    list_ok(var.liste_mail, ip)
+                    list_ok(var.liste_telegram, ip)
+                except Exception as inst:
+                    design.logs("ping-" + str(inst))
 
 
 #####  Afficher sur la lise les valeurs + couleur

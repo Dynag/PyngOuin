@@ -100,6 +100,17 @@ def suivi():
     else:
         var.tab_ip.set(selected_item, column="Suivi", value="X")
 
+def exclusion():
+    selected_item = var.tab_ip.selection()[0]
+    suivi = ""
+    try:
+        suivi = var.tab_ip.item(selected_item)["values"][7]
+    except:
+        pass
+    if suivi == "X":
+        var.tab_ip.set(selected_item, column="exc", value="")
+    else:
+        var.tab_ip.set(selected_item, column="exc", value="X")
 
 ###### Récupérer l'ip du PC
 def getentip():
@@ -183,6 +194,7 @@ def right_clic(event):
     suivi1 = ""
     try:
         suivi1 = var.tab_ip.item(selected_item)["values"][5]
+        excl1 = var.tab_ip.item(selected_item)["values"][7]
     except:
         pass
     rowID = var.tab_ip.identify('item', event.x, event.y)
@@ -195,6 +207,7 @@ def right_clic(event):
         menu_tree.add_command(label="Ouvrir dans le navigateur", command=lambda: open_nav(rowID))
         menu_tree.add_separator()
         menu_tree.add_command(label="Suivi", command=suivi)
+        menu_tree.add_command(label="Exclure", command=exclusion)
         if suivi1 == "X":
             menu_tree.add_command(label="Historique", command=histo)
             menu_tree.add_command(label="Graphique", command=graph)
@@ -428,7 +441,7 @@ if __name__ == '__main__':
 
     tab_ip_scroll = Scrollbar(frame2)
     tab_ip_scroll.pack(side=RIGHT, fill=Y)
-    columns = ('IP', 'Nom', 'mac', 'port', 'Latence', 'Suivi', 'Comm')
+    columns = ('IP', 'Nom', 'mac', 'port', 'Latence', 'Suivi', 'Comm', 'exc')
     var.tab_ip = ttk.Treeview(frame2, yscrollcommand=tab_ip_scroll.set, selectmode="extended", columns=columns,
                               show='headings')
     for col in columns:
@@ -441,6 +454,7 @@ if __name__ == '__main__':
     var.tab_ip.column("Latence", anchor=CENTER, width=50, stretch=TRUE)
     var.tab_ip.column("Suivi", anchor=CENTER, width=30, stretch=FALSE)
     var.tab_ip.column("Comm", anchor=CENTER, stretch=TRUE, width=80)
+    var.tab_ip.column("exc", anchor=CENTER, width=30, stretch=TRUE)
     var.tab_ip.bind('<ButtonRelease-1>', item_selected)
     var.tab_ip.bind('<3>', right_clic)
     var.tab_ip.pack(expand=YES, fill=BOTH)
