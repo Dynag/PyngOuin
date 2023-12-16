@@ -1,8 +1,9 @@
 import csv
+import os
 import threading
 from tkinter import *
 from tkinter.messagebox import *
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 import fichier.param_mail as param_mail
 import fichier.param_db_quit as db_quit
 import fichier.param_gene as param_gene
@@ -37,6 +38,11 @@ def rac_s(ev=None):
     except Exception as e:
         logs("design - " + str(e))
 
+def rac_o(ev=None):
+    try:
+        load_csv()
+    except Exception as e:
+        logs("design - " + str(e))
 
 def rac_x(ev=None):
     try:
@@ -45,7 +51,7 @@ def rac_x(ev=None):
         logs("design - " + str(e))
 
 
-def rac_o(ev=None):
+def rac_w(ev=None):
     try:
         xlsImport()
     except Exception as e:
@@ -117,7 +123,13 @@ def lire_nom(ip):
 
 def save_csv():
     try:
-        with open("ip", "w", newline='') as myfile:
+
+        Tk().withdraw()
+        doss = os.getcwd()+"\\bd\\"
+        filename = filedialog.asksaveasfilename(initialdir=doss, title="Select file", filetypes=(
+            ("Pin", "*.pin"), ("all files", "*.*")))
+
+        with open(filename+".pin", "w", newline='') as myfile:
             csvwriter = csv.writer(myfile, delimiter=',')
 
             for row_id in var.tab_ip.get_children():
@@ -132,7 +144,10 @@ def save_csv():
 
 def load_csv():
     try:
-        with open("ip") as myfile:
+        doss = os.getcwd() + "\\bd\\"
+        filename = filedialog.askopenfilename(initialdir=doss, title="Select File", filetypes=(
+            ("Pin", "*.pin"), ("all files", "*.*")))
+        with open(filename) as myfile:
             csvread = csv.reader(myfile, delimiter=',')
             i = 0
             for row in csvread:
@@ -241,6 +256,7 @@ def create_menu(fenetre, frame_haut):
 
     menu1 = Menu(menubar, tearoff=0)
     menu1.add_command(label="Sauvegarder  ctrl+s", command=save_csv)
+    menu1.add_command(label="Ouvrir  ctrl+o", command=load_csv)
     menu1.add_command(label="Charger", command=load_csv)
     menu1.add_command(label="Tout effacer", command=tab_erase)
     menu1.add_separator()
@@ -257,7 +273,7 @@ def create_menu(fenetre, frame_haut):
 
     menu4 = Menu(menubar, tearoff=0)
     menu4.add_command(label="Export xls ctrl+x", command=xlsExport)
-    menu4.add_command(label="Import xls ctrl+o", command=xlsImport)
+    menu4.add_command(label="Import xls ctrl+w", command=xlsImport)
     menu4.add_separator()
     menubar.add_cascade(label="Fonctions", menu=menu4)
 
@@ -279,6 +295,7 @@ def create_menu(fenetre, frame_haut):
     menubar.bind_all('<Control-s>', rac_s)
     menubar.bind_all('<Control-a>', lambda ev: fct_ping.lancerping(frame_haut))
     menubar.bind_all('<Control-x>', rac_x)
+    menubar.bind_all('<Control-w>', rac_w)
     menubar.bind_all('<Control-o>', rac_o)
     menubar.bind_all('<Control-f>', rac_f)
     return menubar

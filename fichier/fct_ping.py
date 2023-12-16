@@ -37,7 +37,7 @@ def list_increment(liste, ip):
                 liste[ip] += 1
             else:
                 liste[ip] = liste[ip]
-            #print(str(ip)+" - "+str(liste[ip]))
+            #print(str(ip.pin)+" - "+str(liste[ip.pin]))
         else:
 
             liste[ip] = 1

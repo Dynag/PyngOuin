@@ -1,5 +1,7 @@
 import os
 import threading
+from pathlib import Path
+
 import fichier.design as design
 import psutil
 
@@ -36,3 +38,15 @@ def Intercepte():
 
     except Exception as e:
         design.logs("exit - " + str(e))
+
+def creerDossier(nom):
+    # Spécifiez le chemin du dossier à créer
+    chemin_dossier = os.getcwd()+"\\"+nom
+
+    # Vérifiez si le dossier n'existe pas, puis créez-le
+    dossier = Path(chemin_dossier)
+    if not dossier.exists():
+        dossier.mkdir(parents=True, exist_ok=True)
+        print("Le dossier a été créé avec succès")
+    else:
+        print("Le dossier existe déjà")

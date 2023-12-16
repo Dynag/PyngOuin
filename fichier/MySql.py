@@ -41,7 +41,7 @@ def create_table(table):
     create_teacher_table = """
         CREATE TABLE IF NOT EXISTS """+str(var.nom_site)+"""(
           id INT PRIMARY KEY AUTO_INCREMENT,
-          ip VARCHAR(40) NOT NULL,
+          ip.pin VARCHAR(40) NOT NULL,
           nom VARCHAR(40) NOT NULL,
           etat VARCHAR(3) NOT NULL,
           latence VARCHAR(40) NOT NULL
@@ -64,7 +64,7 @@ def vider_table(table):
 def add_enre(ip, nom, etat, latence, table):
 
     add = """
-    INSERT INTO `"""+var.nom_site+"""`(`ip`, `nom`, `etat`, `latence`) VALUES (
+    INSERT INTO `"""+var.nom_site+"""`(`ip.pin`, `nom`, `etat`, `latence`) VALUES (
         '"""+ip+"""',
         '"""+nom+"""',
         '"""+etat+"""',

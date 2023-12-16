@@ -1,4 +1,5 @@
-from tkinter import * 
+import uuid
+from tkinter import *
 from tkinter import ttk
 import fichier.var as var
 import fichier.design as design
@@ -31,10 +32,12 @@ def lire_param_gene():
 	except Exception as inst:
 		design.logs("param_gene - "+str(inst))
 
+
 def nom_site():
 	try:
 		param = lire_param_gene()
 		var.nom_site=param[0]
+		var.l = param[1]
 		print(param[0])
 	except Exception as inst:
 		design.logs("param_gene - "+str(inst))
@@ -44,7 +47,8 @@ def nom_site():
 def main():
 	def save_param_gene():
 		param_site = ent0.get()
-		variables = [param_site]
+		param_li = ent2.get()
+		variables = [param_site, param_li]
 		try:
 			fichierSauvegarde = open(fichierini,"wb")
 			pickle.dump(variables, fichierSauvegarde)
@@ -58,6 +62,8 @@ def main():
 			variables=lire_param_gene()
 
 			ent0.insert(0, variables[0])
+			ent1.insert(0, uuid.getnode())
+			ent2.insert(0, variables[1])
 
 		except Exception as inst:
 			design.logs("param_gene - "+str(inst))
@@ -72,6 +78,23 @@ def main():
 	lab0 = Label(master=frame_haut, text="Nom du site", bg=var.bg_frame_mid).grid(row=0, column=0, padx=5, pady=5, sticky = 'w')
 	ent0 = Entry(frame_haut, text="")
 	ent0.grid(row=0, column=1, padx=5, pady=5, sticky = 'w')
+
+	lab1 = Label(master=frame_haut, text="Code", bg=var.bg_frame_mid).grid(row=1, column=0, padx=5, pady=5,
+																				  sticky='w')
+	ent1 = Entry(frame_haut, text="")
+	ent1.grid(row=1, column=1, padx=5, pady=5, sticky='w')
+
+	lab2 = Label(master=frame_haut, text="Licence", bg=var.bg_frame_mid).grid(row=2, column=0, padx=5, pady=5,
+																				  sticky='w')
+	ent2 = Entry(frame_haut, text="")
+	ent2.grid(row=2, column=1, padx=5, pady=5, sticky='w')
+
+	if var.b == True:
+		Licence = "Licence Valide"
+	else:
+		Licence = "Licence Non Valide"
+	Label(master=frame_haut, text=Licence, bg=var.bg_frame_mid).grid(row=3, columnspan=2, padx=5, pady=5,
+																	   sticky='w')
 
 	but_ip = Button(frame_haut, text='Valider', padx=10, command=save_param_gene).grid(row=6, columnspan=2, pady=5)
 	lire()

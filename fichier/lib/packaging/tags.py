@@ -31,7 +31,7 @@ INTERPRETER_SHORT_NAMES: Dict[str, str] = {
     "python": "py",  # Generic.
     "cpython": "cp",
     "pypy": "pp",
-    "ironpython": "ip",
+    "ironpython": "ip.pin",
     "jython": "jy",
 }
 

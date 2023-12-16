@@ -8,6 +8,7 @@ import fichier.fct_ip as fct_ip
 import fichier.fct_ping as fct_ping
 import fichier.param_gene as param_gene
 import fichier.Thread_aj_ip as Thread_aj_ip
+import fichier.fct_main as fctMain
 import fichier.param_db_quit as dbQuit
 import os
 import urllib3
@@ -16,6 +17,8 @@ import fichier.fct_suivi as fct_suivi
 import fichier.fct_graph as fct_graph
 import threading
 from tkinter import *
+import uuid
+
 from tkinter import ttk
 import math
 import webbrowser
@@ -59,6 +62,9 @@ def plug():
         full_filename = os.path.join("plugin", filename)
         if os.path.isdir(full_filename):
             var.plugIn.append(filename)
+
+
+
 
 def maj():
     import fichier.thread_maj as maj1
@@ -112,7 +118,7 @@ def exclusion():
     else:
         var.tab_ip.set(selected_item, column="exc", value="X")
 
-###### Récupérer l'ip du PC
+###### Récupérer l'ip.pin du PC
 def getentip():
     ip = ent_ip.get()
     showinfo("OK", ip)
@@ -221,7 +227,7 @@ def right_clic(event):
 ###### Supprimer un item
 def delete_item():
     selected_item = var.tab_ip.selection()[0]
-    val = design.question_box("Attention", "Etes vous sur de vouloir effacer l'ip " + selected_item[0])
+    val = design.question_box("Attention", "Etes vous sur de vouloir effacer l'ip.pin " + selected_item[0])
     if val:
         var.tab_ip.delete(selected_item)
         fct_ping.lancerping(frame_haut)
@@ -319,12 +325,19 @@ if __name__ == '__main__':
     fenetre.geometry("910x600")
     fenetre.minsize(width=910, height=600)
     fenetre.iconbitmap('fichier/logoP.ico')
-
+    fctMain.creerDossier("bd")
+    fctMain.creerDossier("plugin")
+    lireParam()
+    var.nom_site = param_gene.nom_site()
     ip_pc = fct_ip.recup_ip()
     ### Gestion des Plugins
     plug()
-
-
+    a = uuid.getnode()
+    if var.li(a) == True:
+        var.b = True
+    else:
+        pass
+        #design.alert("Vous n'avez pas de licence valide")
 
     check_popup1 = IntVar()
     check_mail1 = IntVar()
@@ -334,14 +347,13 @@ if __name__ == '__main__':
     check_telegram1 = IntVar()
     check_db1 = IntVar()
 
-    var.nom_site = param_gene.nom_site()
     try:
         maj()
     except Exception as e:
         design.logs("MAJ - " + str(e))
         pass
 
-    lireParam()
+
     threading.Thread(target=queu, args=()).start()
     # threading.Thread(target=threado, args=()).start()
     ###################################################################################################################
@@ -526,7 +538,6 @@ if __name__ == '__main__':
     frametab1 = Frame(master=frame3, bg=var.bg_frame_droit, padx=5, pady=5, width=180, height=20, relief=SUNKEN)
     frametab1.pack_propagate(0)
     frametab1.pack(side=TOP, expand=False)
-    design.load_csv()
     # ______________________________________________________________
     # Créer un menu
     # ______________________________________________________________
@@ -537,8 +548,6 @@ if __name__ == '__main__':
     # Lancer la fenetre
     # ______________________________________________________________
     fenetre.protocol("WM_DELETE_WINDOW", Intercepte)
-
-
 
     fenetre.mainloop()
 

@@ -1,8 +1,10 @@
-from tkinter import * 
+import hashlib
+import uuid
+from tkinter import *
 from tkinter import ttk
 from queue import Queue
 
-version = "2.0.5"
+version = "2.0.6"
 site = 'http://prog.dynag.co'
 ###########   Couleurs ##########
 bg_frame_haut = "#81BEF7"
@@ -59,9 +61,9 @@ param_mail_port=""
 param_mail_serveur=""
 param_mail_envoie=""
 
-
+b = False
 telegram_id = "548421802"
-
+l=""
 hik = 0
 axis = 0
 samsung = 0
@@ -73,3 +75,16 @@ timeTest = 3
 
 plugIn = []
 plugTempVal = 50
+
+def li(a):
+    c = a+5874632589
+    c = c*54
+    c = hashlib.sha256(str(c).encode()).hexdigest()
+    print(l)
+    print(c)
+    if str(c) == str(l):
+        print("LI OK")
+        return True
+    else:
+        print("LI NONOK")
+        return False
