@@ -7,14 +7,17 @@ import plugin.CryPtor.fct as fct
 import fichier.var as var
 import fichier.design as design
 
-fenetre1 = Toplevel()
 
 
-def stop():
-    fenetre1.destroy()
+
+
 
 
 def fen():
+    fenetre2 = Toplevel()
+
+    def stop():
+        fenetre2.destroy()
     def crypt():
         text = ent0.get()
         cle = ent1.get()
@@ -31,15 +34,15 @@ def fen():
     ###################################################################################################################
     # Créer une nouvelle fenêtre
 
-    fenetre1.title("Cryptor - version "+main1.version)
-    fenetre1.geometry("400x400")
-    fenetre1.overrideredirect(1)
+    fenetre2.title("Cryptor - version "+main1.version)
+    fenetre2.geometry("400x400")
+    fenetre2.overrideredirect(1)
 
-    frame_haut = Frame(master=fenetre1, bg=var.bg_frame_haut, height=50, padx=5, pady=5)
+    frame_haut = Frame(master=fenetre2, bg=var.bg_frame_haut, height=50, padx=5, pady=5)
     frame_haut.pack(fill=X)
-    frame_mid = Frame(master=fenetre1, bg=var.bg_frame_mid, height=300,padx=5, pady=5)
+    frame_mid = Frame(master=fenetre2, bg=var.bg_frame_mid, height=300,padx=5, pady=5)
     frame_mid.pack(fill=X)
-    frame_bot = Frame(master=fenetre1, bg=var.bg_frame_haut, height=50, padx=5, pady=5)
+    frame_bot = Frame(master=fenetre2, bg=var.bg_frame_haut, height=50, padx=5, pady=5)
     frame_bot.pack(fill=X)
 
 
@@ -76,6 +79,6 @@ def fen():
     # ______________________________________________________________
     # Créer un menu
     # ______________________________________________________________
-    design.center_window(fenetre1)
-    fenetre1.mainloop()
+    design.center_window(fenetre2)
+    fenetre2.mainloop()
 

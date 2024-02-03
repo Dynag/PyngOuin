@@ -31,7 +31,10 @@ def question_box(title, message):
         resp = False
     return resp
 
-
+def affilogs():
+    path = os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir)))
+    print(path + "/log.log")
+    os.startfile(path + "/log.log")
 def rac_s(ev=None):
     try:
         save_csv()
@@ -206,6 +209,7 @@ def plugIn(x):
             module_dir, module_file = os.path.split(full_path_to_module)
             module_name, module_ext = os.path.splitext(module_file)
             spec = importlib.util.spec_from_file_location(module_name, full_path_to_module)
+            print(spec)
             module = spec.loader.load_module()
         except Exception as e:
             logs("design - " + str(e))
@@ -280,6 +284,7 @@ def create_menu(fenetre, frame_haut):
     menu3 = Menu(menubar, tearoff=0)
     menu3.add_command(label="A propos", command=fenAPropos)
     menu3.add_command(label="Changelog", command=fenAChangelog)
+    menu3.add_command(label="Logs", command=affilogs)
     menu3.add_separator()
 
     menu5 = Menu(menubar, tearoff=0)

@@ -114,6 +114,8 @@ def test_ping(ip):
                     design.logs("ping-" + str(inst))
             etat = "HS"
             latence = ""
+            ttot = "HS"
+            var.q.put(lambda: var.tab_ip.tag_configure(tagname=ip, background=color))
 #### SI OK
         else:
             message = message + " OK || " + str(result.rtt_avg_ms) + " ms"
@@ -222,9 +224,10 @@ def test2():
 
 def threadPing():
     param_gene.nom_site()
-    cpus = 4  # Detect number of cores
-    print("Creating %d threads" % cpus)
-    for i in range(cpus):
+    cpus = multiprocessing.cpu_count()
+    cpu = cpus/2 # Detect number of cores
+    print("Creating %d threads" % cpu)
+    for i in range(int(cpu)):
         t = threading.Thread(target=worker)
         t.daemon = True
         t.start()

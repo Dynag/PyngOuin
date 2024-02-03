@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from queue import Queue
 
-version = "2.0.6"
+version = "2.0.7"
 site = 'http://prog.dynag.co'
 ###########   Couleurs ##########
 bg_frame_haut = "#81BEF7"

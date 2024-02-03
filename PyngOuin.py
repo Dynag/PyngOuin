@@ -30,9 +30,7 @@ import time
 
 def queu():
     while True:
-        time.sleep(0.025)
-        num_threads = threading.active_count()
-        print(num_threads)
+        time.sleep(.05)
         try:
             try:
                 f = var.q.get()
@@ -40,10 +38,10 @@ def queu():
                 if f is None:
                     break
             except Exception as inst:
-                #design.logs("ping-" + str(inst))
+                design.logs("queu-" + str(inst))
                 pass
         except TclError as inst:
-            design.logs("ping-" + str(inst))
+            design.logs("queu-" + str(inst))
 
 
 
