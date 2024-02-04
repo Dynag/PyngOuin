@@ -2,6 +2,7 @@ import threading
 import time
 import fichier.design as design
 import fichier.fct_thread_mail as fct_thread_mail
+import fichier.thread_recap_mail as recap
 import fichier.thread_telegram as thread_telegram
 import fichier.var as var
 from queue import Queue
@@ -31,7 +32,7 @@ def main():
             if var.ipPing == 1:
                 if var.popup == 1:
                     try:
-                        var.q.put(lambda: threading.Thread(target=popup, args=()).start())
+                        threading.Thread(target=popup, args=()).start()
                     except Exception as inst:
                         design.logs("fct_thread -" + str(inst))
                 if var.mail == 1:
@@ -45,12 +46,18 @@ def main():
                     except Exception as inst:
                         design.logs("fct_thread -" + str(inst))
 
+
             else:
                 print("stop")
                 break
         except Exception as inst:
             design.logs("fct_thread--" + str(inst))
-
+    if var.ipPing == 1:
+        if var.recap == 1:
+            try:
+                threading.Thread(target=recapmail(), args=()).start()
+            except Exception as inst:
+                design.logs("fct_thread -" + str(inst))
 
 ############################################################################################
 #####	Alerte Popup															       #####
@@ -196,3 +203,6 @@ def telegram():
         ip_ok = ""
     except Exception as inst:
         design.logs("fct_thread--" + str(inst))
+
+def recapmail():
+    recap.main()

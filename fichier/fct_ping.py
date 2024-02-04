@@ -104,7 +104,6 @@ def test_ping(ip):
         if result.rtt_avg_ms == int(2000):
             message = message + "HS || 200"
             color = var.couleur_noir
-            latenceAffi = "HS"
             if excl != "X":
                 try:
                     list_increment(var.liste_hs, ip)
@@ -180,16 +179,15 @@ def worker():
         design.logs("fct_ping - " + str(e))
 
 
-def affi(ip):
-    print(ip)
-def workerPing(task):
 
-    print("Worker exécute la tâche :",task)
+"""def workerPing(task):
+
+    print("Worker exécute la tâche :",task)"""
 ###########################################################################################
 #####				Création des workers et mise en liste des tâches     			  #####
 ###########################################################################################
 
-def testPing():
+"""def testPing():
     tasks = queue.Queue()
     tasks.empty()
     pool2 = Pool(processes=4)
@@ -206,7 +204,7 @@ def testPing():
     pool2.close()
     print("closeOK")
     #pool2.join()
-    print("closeOK1")
+    print("closeOK1")"""
 
 def test2():
 
@@ -214,12 +212,6 @@ def test2():
         result = var.tab_ip.item(parent)["values"]
         ip1 = result[0]
         q.put(ip1)
-    """cpus = 4  # Detect number of cores
-    print("Creating %d threads" % cpus)
-    for i in range(cpus):
-        t = threading.Thread(target=worker)
-        t.daemon = True
-        t.start()"""
     q.join()
 
 def threadPing():
@@ -256,7 +248,7 @@ def threadPing():
             pass
 
 
-def threadPing1():
+"""def threadPing1():
     param_gene.nom_site()
     if var.db == 1:
         try:
@@ -312,7 +304,7 @@ def threadPing1():
         except Exception as e:
             design.logs("fct_ping - " + str(e))
 
-
+"""
 ###########################################################################################
 #####				Gestion du bouton ping, lancer ou arrêter les pings				  #####
 ###########################################################################################
