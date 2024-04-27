@@ -35,6 +35,12 @@ def affilogs():
     path = os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir)))
     print(path + "/log.log")
     os.startfile(path + "/log.log")
+
+def effalogs():
+    path = os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir)))
+    if os.path.exists(path+ "/log.log"):
+        os.remove(path+ "/log.log")
+
 def rac_s(ev=None):
     try:
         save_csv()
@@ -131,7 +137,8 @@ def save_csv():
         doss = os.getcwd()+"\\bd\\"
         filename = filedialog.asksaveasfilename(initialdir=doss, title="Select file", filetypes=(
             ("Pin", "*.pin"), ("all files", "*.*")))
-
+        filename = filename.split(".")
+        filename = filename[0]
         with open(filename+".pin", "w", newline='') as myfile:
             csvwriter = csv.writer(myfile, delimiter=',')
 
@@ -285,6 +292,7 @@ def create_menu(fenetre, frame_haut):
     menu3.add_command(label="A propos", command=fenAPropos)
     menu3.add_command(label="Changelog", command=fenAChangelog)
     menu3.add_command(label="Logs", command=affilogs)
+    menu3.add_command(label="Effacer Logs", command=effalogs)
     menu3.add_separator()
 
     menu5 = Menu(menubar, tearoff=0)
@@ -298,7 +306,7 @@ def create_menu(fenetre, frame_haut):
 
     menubar.add_cascade(label="?", menu=menu3)
     menubar.bind_all('<Control-s>', rac_s)
-    menubar.bind_all('<Control-a>', lambda ev: fct_ping.lancerping(frame_haut))
+    menubar.bind_all('<Control-l>', lambda ev: fct_ping.lancerping(frame_haut))
     menubar.bind_all('<Control-x>', rac_x)
     menubar.bind_all('<Control-w>', rac_w)
     menubar.bind_all('<Control-o>', rac_o)

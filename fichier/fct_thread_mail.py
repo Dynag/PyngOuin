@@ -8,7 +8,7 @@ import fichier.design as design
 
 
 def envoie_mail(messageRecep, sujet):
-	print("001")
+	print("Mail Envoie - 001")
 	variables = param_mail.lire_param_mail()
 
 	destinateur = variables[0]
@@ -31,13 +31,24 @@ def envoie_mail(messageRecep, sujet):
 	mimetext_html = MIMEText1.MIMEText(email_html, "html")
 	message.attach(mimetext_texte)
 	message.attach(mimetext_html)
-
-	context = ssl.create_default_context()
+	try:
+		context = ssl.create_default_context()
+	except Exception as inst:
+		log = design.logs("fct_tread_mail"+inst)
+		print(inst)
+		print(log)
+		return
 	print("Test envoie mail")
 	try:
 		with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
 			server.login(destinateur, password)
-			server.sendmail(destinateur, destinataire.split(","), message.as_string())
+			try:
+				server.sendmail(destinateur, destinataire.split(","), message.as_string())
+			except Exception as inst:
+				log = design.logs("fct_tread_mail" + inst)
+				print(inst)
+				print(log)
+			server.quit()
 			print("Test envoie mail OK")
 			
 

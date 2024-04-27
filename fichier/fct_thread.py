@@ -37,6 +37,7 @@ def main():
                         design.logs("fct_thread -" + str(inst))
                 if var.mail == 1:
                     try:
+                        print("Thread Mail")
                         threading.Thread(target=mail, args=()).start()
                     except Exception as inst:
                         design.logs("fct_thread -" + str(inst))

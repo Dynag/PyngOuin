@@ -6,7 +6,8 @@ import plugin.CryPtor.main as main1
 import plugin.CryPtor.fct as fct
 import fichier.var as var
 import fichier.design as design
-
+import random
+import os
 
 
 
@@ -28,6 +29,25 @@ def fen():
         ent2.delete(0,END)
         ent2.insert(0,result)
 
+    def dict(nbr):
+
+        liste = ""
+        path = os.getcwd()
+
+        with open(path+"\plugin\Cryptor\\"+"dict.txt", "r", encoding='utf-8') as file:
+            allText = file.read()
+            words = list(map(str, allText.split()))
+            i=1
+            while i <= int(nbr):
+                if i == nbr:
+                    liste = liste + random.choice(words)
+                else:
+                    liste = liste + random.choice(words) + "_"
+                i+=1
+            # print random string
+            print(liste)
+        ent0.delete(0, END)
+        ent0.insert(0, liste)
 
     ###################################################################################################################
     ###### Fenetre principale																					 ######
@@ -49,13 +69,13 @@ def fen():
 
     ########################################
     ## Titre
-    Label(master=frame_haut, text="Snyf, récupération automatique des éléments", bg="#FFFFFF").pack(fill=X)
+    Label(master=frame_haut, text="Cryptor, génération de mots de passes forts", bg="#FFFFFF").pack(fill=X)
     Label(master=frame_haut, text="version "+main1.version, bg="#FFFFFF").pack(fill=X)
     ####################################################################################################################
     # Caméras
     texte1 = Label(master=frame_mid, text="Texte", bg="#FFFFFF", width=20)
     texte1.grid(row=0, column=0, padx=5, pady=5, columnspan=1)
-    ent0 = Entry(frame_mid, text="")
+    ent0 = Entry(frame_mid, text="", width=37)
     ent0.insert(0, '0')
     ent0.grid(row=0, column=1, padx=5, pady=5, sticky='w')
 
@@ -67,14 +87,14 @@ def fen():
 
     result = Label(master=frame_mid, text="Résultat", bg="#FFFFFF", width=20)
     result.grid(row=2, column=0, padx=5, pady=5, columnspan=1)
-    ent2 = Entry(frame_mid, text="")
+    ent2 = Entry(frame_mid, text="", width=35)
     ent2.insert(0, '0')
     ent2.grid(row=2, column=1, padx=5, pady=5, sticky='w')
 
 
     Button(frame_bot, text='Annuler', padx=10, command=stop).pack(side=LEFT, padx=5, pady=5)
     Button(frame_bot, text='Valider', padx=10, command=crypt).pack(side=LEFT, padx=5, pady=5)
-
+    dict(3)
 
     # ______________________________________________________________
     # Créer un menu

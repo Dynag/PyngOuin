@@ -46,7 +46,7 @@ def prepaMail():
 	for row_id in var.tab_ip.get_children():
 		result = var.tab_ip.item(row_id)["values"]
 		color = ""
-		if result[4] == "":
+		if result[4] == "HS":
 			color = var.couleur_noir
 		else:
 			color = var.couleur_vert
